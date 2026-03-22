@@ -13,6 +13,8 @@ UPLOAD_PATH = "uploads"
 os.makedirs(UPLOAD_PATH, exist_ok=True)
 
 video_source = None  # 🔥 dynamic source
+tracker_instance = None  # 🔥 tracker reference for stats
+event_handler_instance = None  # 🔥 event handler for stats
 
 
 def set_latest_frame(frame: np.ndarray):
@@ -90,6 +92,25 @@ def create_app(db):
         except:
             unique = 0
 
+        # Get today's summary
+        today_entries = 0
+        today_exits = 0
+        try:
+            summary = db.get_summary()
+            if summary:
+                today_entries = summary[0].get("total_entries", 0)
+                today_exits = summary[0].get("total_exits", 0)
+        except:
+            pass
+
+        # Get active tracks count
+        active_tracks = 0
+        try:
+            if tracker_instance:
+                active_tracks = len(tracker_instance.tracks)
+        except:
+            pass
+
         events = []
         try:
             for r in db.get_recent_events(20):
@@ -103,6 +124,9 @@ def create_app(db):
 
         return jsonify({
             "unique_visitors": unique,
+            "active_tracks": active_tracks,
+            "total_entries": today_entries,
+            "total_exits": today_exits,
             "recent_events": events
         })
 

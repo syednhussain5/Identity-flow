@@ -3,107 +3,295 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FaceTrack // Surveillance Dashboard</title>
+<title>IdentityFlow - AI Visitor Recognition System</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-/* ===== YOUR ORIGINAL STYLES (UNCHANGED) ===== */
+/* ===== DESIGN TOKENS ===== */
 :root {
-  --bg:#080b0f; --panel:#0d1117; --border:#1a2232;
-  --accent:#00e5ff; --accent2:#ff3d6b; --green:#00ff88;
-  --text:#c8d8e8; --textdim:#4a6070;
+  --bg:#080b0f; 
+  --panel:#0d1117; 
+  --border:#1a2232;
+  --accent:#00e5ff; 
+  --accent2:#ff3d6b; 
+  --green:#00ff88;
+  --text:#c8d8e8; 
+  --textdim:#4a6070;
   --mono:'Share Tech Mono', monospace;
   --sans:'Barlow Condensed', sans-serif;
+  --title:'Orbitron', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   background:var(--bg);
   color:var(--text);
   font-family:var(--sans);
+  overflow-x: hidden;
 }
 
-/* ===== 🔥 NEW UPLOAD UI STYLE ===== */
-.upload-bar {
-  display:flex;
-  gap:10px;
-  margin-bottom:10px;
+/* ===== HERO SECTION ===== */
+.hero-section {
+  background: linear-gradient(135deg, #080b0f 0%, #0d1117 50%, #1a2232 100%);
+  padding: 40px 20px;
+  text-align: center;
+  border-bottom: 2px solid var(--accent);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
 }
 
-.upload-bar input {
-  flex:1;
-  background:#000;
-  color:var(--text);
-  border:1px solid var(--border);
-  padding:6px;
+.hero-title {
+  font-family: var(--title);
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+  animation: glow 2s ease-in-out infinite;
 }
 
-.upload-bar button {
-  background:var(--accent);
-  border:none;
-  padding:6px 12px;
-  cursor:pointer;
-  font-weight:bold;
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(0, 229, 255, 0.5); }
+  50% { text-shadow: 0 0 40px rgba(0, 229, 255, 0.8), 0 0 60px rgba(255, 61, 107, 0.3); }
 }
 
-/* ===== REST SAME (shortened for clarity but works fully) ===== */
+.hero-subtitle {
+  font-size: 16px;
+  color: var(--textdim);
+  font-family: var(--mono);
+  letter-spacing: 2px;
+}
+
+/* ===== UPLOAD SECTION ===== */
+.upload-section {
+  background: linear-gradient(135deg, #0d1117 0%, #1a2232 100%);
+  padding: 30px;
+  border: 2px dashed var(--accent);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.upload-section:hover {
+  border-color: var(--accent2);
+  box-shadow: 0 0 20px rgba(255, 61, 107, 0.3);
+}
+
+.upload-label {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 15px;
+  display: block;
+  font-weight: bold;
+}
+
+.upload-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  left: -9999px;
+}
+
+.file-input-label {
+  display: inline-block;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.file-input-label:hover {
+  background: var(--border);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.upload-btn {
+  background: linear-gradient(135deg, var(--accent) 0%, #00b8d4 100%);
+  color: #000;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.upload-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 229, 255, 0.4);
+}
+
+.upload-btn:active {
+  transform: translateY(0);
+}
+
+.file-name {
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* ===== MAIN LAYOUT ===== */
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1px;
+  padding: 20px;
+}
+
+.feed-section {
+  background: #0d1117;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+
+.stats-section {
+  background: #0d1117;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+
+/* ===== FEED CANVAS ===== */
 .feed-wrap {
-  width:100%;
-  height:600px;
-  background:#000;
-  border:1px solid var(--border);
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width: 100%;
+  height: 600px;
+  background: #000;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
 }
 
 .feed-wrap canvas {
-  max-width:100%;
-  max-height:100%;
-  display:block;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+/* ===== STATS STYLING ===== */
+.stats-section h3 {
+  color: var(--accent);
+  font-family: var(--mono);
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-section span {
+  color: var(--green);
+  font-weight: bold;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-title {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 20px;
+  }
+  
+  .hero-title {
+    font-size: 28px;
+  }
+  
+  .upload-container {
+    flex-direction: column;
+  }
+  
+  .file-input-label, .upload-btn {
+    width: 100%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header style="display:flex;justify-content:space-between;padding:10px;background:#0d1117;">
-  <div>FaceTrack // SURVEILLANCE</div>
-  <div id="header-unique">0 VISITORS</div>
-</header>
+<!-- ===== HERO SECTION ===== -->
+<div class="hero-section">
+  <h1 class="hero-title">✨ IdentityFlow</h1>
+  <p class="hero-subtitle">&lt; AI-Driven Unique Visitor Recognition System &gt;</p>
+</div>
 
-<div style="display:grid;grid-template-columns:1fr 340px;gap:1px;">
-
-  <!-- ===== FEED ===== -->
-  <div style="padding:20px;background:#0d1117;">
-
-    <!-- 🔥 UPLOAD BAR -->
-    <div class="upload-bar">
-      <input type="file" id="videoFile" accept="video/*">
-      <button onclick="uploadVideo()">UPLOAD</button>
+<!-- ===== MAIN CONTAINER ===== -->
+<div class="main-container">
+  
+  <!-- ===== LEFT: FEED + UPLOAD ===== -->
+  <div class="feed-section">
+    
+    <!-- ===== UPLOAD SECTION ===== -->
+    <div class="upload-section">
+      <label class="upload-label">📹 Upload Video File</label>
+      <div class="upload-container">
+        <div class="file-input-wrapper">
+          <input type="file" id="videoFile" accept="video/*">
+          <label for="videoFile" class="file-input-label">Choose Video</label>
+        </div>
+        <button class="upload-btn" onclick="uploadVideo()">Upload & Analyze</button>
+      </div>
+      <div class="file-name" id="file-name-display"></div>
     </div>
 
+    <!-- ===== VIDEO CANVAS ===== -->
     <div class="feed-wrap">
       <canvas id="videoCanvas"></canvas>
     </div>
 
   </div>
 
-  <!-- ===== STATS ===== -->
-  <div style="padding:20px;background:#0d1117;">
-    <h3>Visitors: <span id="stat-unique">0</span></h3>
-    <h3>Active: <span id="stat-active">0</span></h3>
-    <h3>Entries: <span id="stat-entries">0</span></h3>
-    <h3>Exits: <span id="stat-exits">0</span></h3>
+  <!-- ===== RIGHT: STATISTICS ===== -->
+  <div class="stats-section">
+    <h3>📊 Statistics</h3>
+    <h3 style="margin-top:20px;">👥 Visitors: <span id="stat-unique">0</span></h3>
+    <h3 style="margin-top:15px;">🎯 Active: <span id="stat-active">0</span></h3>
+    <h3 style="margin-top:15px;">➡️ Entries: <span id="stat-entries">0</span></h3>
+    <h3 style="margin-top:15px;">⬅️ Exits: <span id="stat-exits">0</span></h3>
   </div>
 
 </div>
 
 <script>
-
-/* ===== 🔥 CANVAS VIDEO STREAM ===== */
+/* ===== CANVAS VIDEO STREAM ===== */
 const canvas = document.getElementById('videoCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -113,122 +301,108 @@ canvas.height = 600;
 
 let streamActive = false;
 
-async function streamVideo() {
+// Continuous frame update
+async function updateFrame() {
+  if (!streamActive) return;
+
   try {
-    const response = await fetch('/video_feed');
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    streamActive = true;
-
-    while (streamActive && response.ok) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-
-      // Find JPEG frame boundaries
-      const startIdx = buffer.indexOf('\xff\xd8\xff');
-      const endIdx = buffer.indexOf('\xff\xd9');
-
-      if (startIdx !== -1 && endIdx !== -1) {
-        const jpegData = buffer.substring(startIdx, endIdx + 2);
-        buffer = buffer.substring(endIdx + 2);
-
-        // Convert to blob and display
-        const binaryString = atob(jpegData.substring(jpegData.indexOf(',') + 1) || jpegData);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
-        }
-        const blob = new Blob([bytes], { type: 'image/jpeg' });
-        const url = URL.createObjectURL(blob);
-
-        const img = new Image();
-        img.onload = () => {
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          URL.revokeObjectURL(url);
-        };
-        img.src = url;
-      }
+    const response = await fetch('/frame');
+    if (!response.ok) {
+      setTimeout(updateFrame, 30);
+      return;
     }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      setTimeout(updateFrame, 30); // ~30 FPS
+    };
+
+    img.src = url;
   } catch (error) {
-    console.error('Stream error:', error);
-    setTimeout(streamVideo, 1000); // Retry after 1 second
+    console.error('Frame fetch error:', error);
+    setTimeout(updateFrame, 100);
   }
-}
-
-// Simpler approach: use img tag with continuous reload
-const img = new Image();
-let frameCount = 0;
-
-function updateFrame() {
-  fetch('/frame')
-    .then(res => res.blob())
-    .then(blob => {
-      const url = URL.createObjectURL(blob);
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        URL.revokeObjectURL(url);
-        setTimeout(updateFrame, 30); // ~30fps
-      };
-      img.src = url;
-    })
-    .catch(err => {
-      console.error('Frame fetch error:', err);
-      setTimeout(updateFrame, 100);
-    });
 }
 
 // Start streaming when page loads
-window.addEventListener('load', () => {
-  console.log('Starting video stream...');
+function startStream() {
+  streamActive = true;
   updateFrame();
-});
+}
 
-/* ===== 🔥 VIDEO UPLOAD ===== */
+// Stop streaming
+function stopStream() {
+  streamActive = false;
+}
+
+// Upload video file
 async function uploadVideo() {
-  const file = document.getElementById("videoFile").files[0];
+  const fileInput = document.getElementById('videoFile');
+  const file = fileInput.files[0];
 
   if (!file) {
-    alert("Please select a video first");
+    alert('Please select a video file');
     return;
   }
 
+  // Display filename
+  document.getElementById('file-name-display').textContent = `✓ Selected: ${file.name}`;
+
   const formData = new FormData();
-  formData.append("video", file);
+  formData.append('video', file);
 
   try {
-    const response = await fetch("/upload_video", {
-      method: "POST",
+    const response = await fetch('/upload_video', {
+      method: 'POST',
       body: formData
     });
-    const data = await response.json();
-    alert("Video uploaded successfully! Processing started...");
-  } catch (e) {
-    alert("Error uploading video");
-    console.error(e);
+
+    if (response.ok) {
+      console.log('✅ Video uploaded successfully');
+      startStream(); // Begin streaming
+    } else {
+      alert('Upload failed');
+    }
+  } catch (error) {
+    console.error('Upload error:', error);
+    alert('Error uploading video');
   }
 }
 
-/* ===== FETCH STATS ===== */
-async function refresh() {
+// Update statistics every 2 seconds
+async function updateStats() {
   try {
-    const res = await fetch('/api/stats');
-    const data = await res.json();
+    const response = await fetch('/api/stats');
+    const data = await response.json();
 
-    document.getElementById("stat-unique").innerText = data.unique_visitors;
-    document.getElementById("header-unique").innerText =
-      data.unique_visitors + " VISITORS";
-
-  } catch (e) {
-    console.log("Error fetching stats");
+    document.getElementById('stat-unique').textContent = data.unique_visitors || 0;
+    document.getElementById('stat-active').textContent = data.active_tracks || 0;
+    document.getElementById('stat-entries').textContent = data.total_entries || 0;
+    document.getElementById('stat-exits').textContent = data.total_exits || 0;
+  } catch (error) {
+    console.error('Stats fetch error:', error);
   }
 }
 
-setInterval(refresh, 2000);
+// File picker display
+document.getElementById('videoFile').addEventListener('change', (e) => {
+  const fileName = e.target.files[0]?.name || '';
+  document.getElementById('file-name-display').textContent = fileName ? `📄 ${fileName}` : '';
+});
 
+// Initialize on page load
+window.addEventListener('load', () => {
+  updateStats();
+  setInterval(updateStats, 2000);
+});
+
+// Stop streaming on page unload
+window.addEventListener('beforeunload', stopStream);
 </script>
 
 </body>

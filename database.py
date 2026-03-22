@@ -189,9 +189,13 @@ class Database:
         with self._conn() as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
                 cur.execute(
-                    "SELECT * FROM visitor_summary ORDER BY date DESC LIMIT 7"
+                    "SELECT * FROM visitor_summary WHERE date = CURRENT_DATE"
                 )
-                return cur.fetchall()
+                result = cur.fetchone()
+                if result:
+                    return [result]
+                # Return default if no record exists for today
+                return [{"date": "today", "unique_visitors": 0, "total_entries": 0, "total_exits": 0}]
 
     def close(self):
         self._pool.closeall()

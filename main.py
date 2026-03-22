@@ -157,8 +157,14 @@ def main():
     # ── FLASK DASHBOARD ───────────────────────
     if cfg.get("dashboard", {}).get("enabled"):
         from dashboard.app import create_app
+        import dashboard.app as dashboard_app
 
         app = create_app(db)
+        
+        # 🔥 Expose tracker and event_handler to dashboard for stats
+        dashboard_app.tracker_instance = tracker
+        dashboard_app.event_handler_instance = event_handler
+        
         threading.Thread(
             target=app.run,
             kwargs={
