@@ -304,8 +304,7 @@ logs/
 
 ## Demo Video
 
-🎥 **[Watch demo on YouTube / Loom]** — _add link before submission_
-
+🎥 **[Watch demo on  Loom]** — https://www.loom.com/share/64c409b17016409ba310c87d549c5b6b
 ---
 
 *This project is a part of a hackathon run by https://katomaran.com*
