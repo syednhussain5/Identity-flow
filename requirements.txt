@@ -1,0 +1,22 @@
+# ── Core ──────────────────────────────────────────────────────────────────────
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# ── Face detection ────────────────────────────────────────────────────────────
+ultralytics>=8.0.0          # YOLOv8
+
+# ── Face recognition / embeddings ─────────────────────────────────────────────
+insightface>=0.7.3
+onnxruntime>=1.16.0         # CPU inference
+# onnxruntime-gpu>=1.16.0   # Uncomment if you have an NVIDIA GPU + CUDA
+
+# ── Database (PostgreSQL) ─────────────────────────────────────────────────────
+psycopg2-binary>=2.9.9      # Windows pre-compiled binary (no build tools needed)
+
+# ── Dashboard ─────────────────────────────────────────────────────────────────
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+scipy>=1.11.0
+Pillow>=10.0.0

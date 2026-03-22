@@ -1,0 +1,49 @@
+{
+  "video_source": "sample2.mp4",
+  "rtsp_url": "rtsp://your-camera-ip/stream",
+  "use_rtsp": false,
+
+  "detection": {
+    "model": "yolov8n-face.pt",
+    "confidence_threshold": 0.5,
+    "frame_skip": 3,
+    "input_size": 640
+  },
+
+  "recognition": {
+    "model_name": "buffalo_l",
+    "similarity_threshold": 0.45,
+    "embedding_size": 512
+  },
+
+  "tracking": {
+    "max_disappeared_frames": 30,
+    "iou_threshold": 0.4,
+    "use_bytetrack": true
+  },
+
+  "logging": {
+    "log_file": "logs/events.log",
+    "image_base_dir": "logs/entries",
+    "image_format": "jpg",
+    "log_level": "INFO"
+  },
+
+  "database": {
+    "dsn": "postgresql://postgres:Hussain%402005@localhost:5432/face_tracker",
+    "min_connections": 2,
+    "max_connections": 10
+  },
+
+  "display": {
+    "show_video": true,
+    "draw_bboxes": true,
+    "draw_ids": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 5000
+  }
+}
